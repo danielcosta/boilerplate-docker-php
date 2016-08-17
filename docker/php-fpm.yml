@@ -1,0 +1,18 @@
+php-fpm:
+  build: php-fpm
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ../:/usr/share/nginx/html
+    - ./php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
+    - ./php-fpm/php.ini:/usr/local/etc/php/php.ini:ro
+    - ./logs/php-fpm:/var/log/php-fpm
+    - ./php-fpm/extension/phalcon.so:/usr/local/lib/php/extensions/no-debug-non-zts-20151012/phalcon.so:ro
+    - ./php-fpm/conf.d/phalcon.ini:/usr/local/etc/php/conf.d/phalcon.ini:ro
+#    - ./php-fpm/extension/ds.so:/usr/local/lib/php/extensions/no-debug-non-zts-20151012/ds.so:ro
+#    - ./php-fpm/conf.d/ds.ini:/usr/local/etc/php/conf.d/ds.ini:ro
+#    - ./php-fpm/extension/mcrypt.so:/usr/local/lib/php/extensions/no-debug-non-zts-20151012/mcrypt.so:ro
+#    - ./php-fpm/conf.d/mcrypt.ini:/usr/local/etc/php/conf.d/mcrypt.ini:ro
+#    - ./php-fpm/extension/pdo_mysql.so:/usr/local/lib/php/extensions/no-debug-non-zts-20151012/pdo_mysql.so:ro
+#    - ./php-fpm/conf.d/pdo_mysql.ini:/usr/local/etc/php/conf.d/pdo_mysql.ini:ro
+  expose:
+    - 9000

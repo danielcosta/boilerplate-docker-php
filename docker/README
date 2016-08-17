@@ -1,0 +1,13 @@
+* Execute:
+
+  docker-compose up           na primeira vez para construir os containers, ou
+  docker-compose up -d        para construir os containers e deixar rodando em background
+  docker-compose up --build   para reconstruir os containers caso altere algum arquivo do diretorio docker
+  docker-compose start        para subir os containers construidos
+  docker-compose stop         para parar containers em execução
+  docker-compose down         para destruir os containers
+
+* Adicionar as linhas abaixo no /etc/hosts:
+
+  # DOCKER BOILERPLATE
+  127.0.0.1       frontend.meu.app backend.meu.app api.meu.app

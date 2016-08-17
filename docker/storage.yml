@@ -1,0 +1,21 @@
+mysql:
+  image: mysql
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+  expose:
+    - 3306
+  environment:
+    - MYSQL_USER=meuapp
+    - MYSQL_PASSWORD=meuapp
+    - MYSQL_DATABASE=meuapp
+    - MYSQL_ROOT_PASSWORD=root
+
+memcached:
+  restart: always
+  image: memcached
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+  expose:
+    - 11211

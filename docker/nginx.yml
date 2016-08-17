@@ -1,0 +1,9 @@
+nginx:
+  image: nginx:stable-alpine
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    - ../:/usr/share/nginx/html
+  expose:
+    - 80
+    - 443

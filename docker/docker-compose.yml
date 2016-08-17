@@ -1,0 +1,85 @@
+###############################################################################
+# PROXY
+###############################################################################
+
+nginx-proxy:
+  image: jwilder/nginx-proxy
+  ports:
+    - "80:80"
+    - "443:443"
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+
+###############################################################################
+# SERVICES
+###############################################################################
+
+php-fpm:
+  restart: always
+  extends:
+    file: php-fpm.yml
+    service: php-fpm
+  links:
+    - mysql
+    - memcached
+
+###############################################################################
+# APPS
+###############################################################################
+
+meu-app-backend:
+  restart: always
+  extends:
+    file: nginx.yml
+    service: nginx
+  links:
+    - php-fpm
+  environment:
+    - VIRTUAL_HOST=backend.meu.app
+  volumes:
+    - ./nginx/conf.d/backend.conf:/etc/nginx/conf.d/default.conf
+    - ./logs/nginx:/var/log/nginx/backend
+
+meu-app-frontend:
+  restart: always
+  extends:
+    file: nginx.yml
+    service: nginx
+  links:
+    - php-fpm
+  environment:
+    - VIRTUAL_HOST=frontend.meu.app
+  volumes:
+    - ./nginx/conf.d/frontend.conf:/etc/nginx/conf.d/default.conf
+    - ./logs/nginx:/var/log/nginx/frontend
+
+meu-app-api:
+  restart: always
+  extends:
+    file: nginx.yml
+    service: nginx
+  links:
+    - php-fpm
+  environment:
+    - VIRTUAL_HOST=api.meu.app
+  volumes:
+    - ./nginx/conf.d/api.conf:/etc/nginx/conf.d/default.conf
+    - ./logs/nginx:/var/log/nginx/api
+
+###############################################################################
+# STORAGE
+###############################################################################
+
+mysql:
+  restart: on-failure:10
+  extends:
+    file: storage.yml
+    service: mysql
+  ports:
+    - "3306:3306"
+
+memcached:
+  restart: on-failure:10
+  extends:
+    file: storage.yml
+    service: memcached
